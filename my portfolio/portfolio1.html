@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Portfolio - Chagal Samreen</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #00c4b2;
+            --primary-dark: #009688;
+            --secondary: #7c3aed;
+            --dark: #121212;
+            --light: #f0f4f8;
+            
+            /* Aesthetic Theme Variables */
+            --aesthetic-bg: #1a1a2e;
+            --aesthetic-card: #2e2e4e;
+            --aesthetic-text: #e0e0e0;
+            --aesthetic-accent: #ff6b6b; /* A new accent color */
+            --aesthetic-secondary-text: #c4c4e2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            transition: all 0.5s ease;
+        }
+
+        body.dark {
+            background-color: var(--dark);
+            color: var(--light);
+        }
+
+        /* Aesthetic Mode */
+        body.aesthetic {
+            background-color: var(--aesthetic-bg);
+            color: var(--aesthetic-text);
+        }
+
+        body.aesthetic .navbar.scrolled {
+            background-color: rgba(26, 26, 46, 0.95);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        body.aesthetic .hero-subtitle,
+        body.aesthetic .about-text p,
+        body.aesthetic .project-description,
+        body.aesthetic .certificate-issuer,
+        body.aesthetic .certificate-date,
+        body.aesthetic .contact-text p,
+        body.aesthetic .footer {
+            color: var(--aesthetic-secondary-text);
+        }
+
+        body.aesthetic .project-title,
+        body.aesthetic .contact-info h3,
+        body.aesthetic .certificate-title {
+            color: var(--aesthetic-accent); /* Use new accent color */
+        }
+
+        body.aesthetic .skill-card,
+        body.aesthetic .project-card,
+        body.aesthetic .certificate-card,
+        body.aesthetic .contact-method {
+            background-color: var(--aesthetic-card);
+            border-color: #3e3e60;
+        }
+
+        body.aesthetic .contact-form input,
+        body.aesthetic .contact-form textarea {
+            background-color: #2e2e4e;
+            border-color: #3e3e60;
+            color: var(--aesthetic-text);
+        }
+
+        body.aesthetic .contact-icon {
+            background-color: var(--aesthetic-accent);
+        }
+        
+        body.aesthetic .project-tag,
+        body.aesthetic .social-link {
+            background-color: #3e3e60;
+            color: var(--aesthetic-secondary-text);
+        }
+
+        body.aesthetic .social-link:hover {
+            background-color: var(--aesthetic-accent);
+            color: white;
+        }
+
+        body.aesthetic .btn-primary {
+            background: var(--aesthetic-accent);
+            border-color: var(--aesthetic-accent);
+        }
+
+        body.aesthetic .btn-primary:hover {
+            background: #ff4c4c;
+            border-color: #ff4c4c;
+        }
+
+        body.aesthetic .btn-outline {
+            color: var(--aesthetic-accent);
+            border-color: var(--aesthetic-accent);
+        }
+
+        body.aesthetic .btn-outline:hover {
+            background: var(--aesthetic-accent);
+            color: white;
+        }
+
+        /* Existing CSS rules remain the same for other elements */
+        
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        /* Aesthetic mode specific title line */
+        body.aesthetic .section-title::after {
+            background: var(--aesthetic-accent);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: 2px solid var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: all 0.3s ease;
+            background-color: transparent;
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(240, 244, 248, 0.95);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark .navbar.scrolled {
+            background-color: rgba(18, 18, 18, 0.95);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        body.aesthetic .logo {
+            color: var(--aesthetic-accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: inherit;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        body.aesthetic .nav-link:hover {
+            color: var(--aesthetic-accent);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        body.aesthetic .nav-link::after {
+            background-color: var(--aesthetic-accent);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: inherit;
+        }
+
+        /* Hero section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: #64748b;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        body.dark .hero-subtitle {
+            color: #94a3b8;
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .hero-image {
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 2rem;
+            border: 4px solid var(--primary);
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        body.dark .hero-image {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+        
+        body.aesthetic .hero-image {
+            border-color: var(--aesthetic-accent);
+        }
+
+        /* About section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image {
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-text {
+            line-height: 1.6;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            color: #334155;
+        }
+
+        body.dark .about-text p {
+            color: #cbd5e1;
+        }
+
+        /* Skills section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .skill-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark .skill-card {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Projects section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        body.dark .project-card {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .project-description {
+            color: #64748b;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        body.dark .project-description {
+            color: #94a3b8;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-tag {
+            background-color: #e2e8f0;
+            color: #334155;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        body.dark .project-tag {
+            background-color: #334155;
+            color: #e2e8f0;
+        }
+
+        /* Certificate Section */
+        .certificates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .certificate-card {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        body.dark .certificate-card {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
+        
+        .certificate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .certificate-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .certificate-issuer, .certificate-date {
+            font-size: 1rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+        
+        body.dark .certificate-issuer, body.dark .certificate-date {
+            color: #94a3b1;
+        }
+
+        /* Contact section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease;
+        }
+        
+        body.dark .contact-method {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
+
+        .contact-method:hover {
+            transform: translateY(-5px);
+        }
+
+        .contact-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .contact-text h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-text p {
+            color: #64748b;
+        }
+
+        body.dark .contact-text p {
+            color: #94a3b8;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #cbd5e1;
+            margin-bottom: 1rem;
+            background-color: white;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        body.dark .contact-form input,
+        body.dark .contact-form textarea {
+            background-color: #1e293b;
+            border-color: #334155;
+            color: white;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #f1f5f9;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+        }
+
+        body.dark .footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .social-link {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #334155;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        body.dark .social-link {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+
+        .social-link:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Theme switch */
+        .theme-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #334155;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #cbd5e1;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .about-content,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section {
+                padding: 4rem 1.5rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body class="dark">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const Portfolio = () => {
+            const [theme, setTheme] = useState('dark'); // Can be 'light', 'dark', or 'aesthetic'
+            const [menuOpen, setMenuOpen] = useState(false);
+            const [name, setName] = useState('Chagal Samreen');
+            const [role, setRole] = useState('Frontend Developer');
+            const [email, setEmail] = useState('chagalsamreen895@gmail.com');
+            const [phone, setPhone] = useState('(+91) 9392859046');
+            const [location, setLocation] = useState('India');
+            const [formData, setFormData] = useState({
+                name: '',
+                email: '',
+                subject: '',
+                message: ''
+            });
+            const [scrolled, setScrolled] = useState(false);
+            
+            const projects = [
+                {
+                    id: 1,
+                    title: 'Virtual Mouse',
+                    description: 'A computer vision-based virtual mouse that uses hand gestures to control cursor movement and perform click actions.',
+                    tags: ['Python', 'Gesture Recognition', 'Open CV'],
+                    imageSrc: 'images/virtualmouse.png',
+                    imageAlt: 'Virtual Mouse',
+                    url: "https://github.com/chagalsamreen01/virtual-mouse"
+                },
+                {
+                    id: 2,
+                    title: 'QR Generator',
+                    description: 'A Python-based tool that generates customizable QR codes for URLs, text, and other data using simple input.',
+                    tags: ['Python', 'Open Source', 'QRCode Generator'],
+                    imageSrc: 'images/scanner.jpg',
+                    imageAlt: 'QR Code Generator',
+                    url:'https://github.com/chagalsamreen01/payment-qr-code'
+                },
+                {
+                    id: 3,
+                    title: 'Calculator',
+                    description: 'A simple, stylish web calculator built with HTML, CSS, and JavaScript for basic arithmetic operations.',
+                    tags: ['JavaScript', 'HTML', 'CSS'],
+                    imageSrc: 'images/calculator.avif',
+                    imageAlt: 'Calculator',
+                    url:'https://github.com/chagalsamreen01/CalculatorProject'
+                },
+            ];
+
+            const skills = [
+                { name: 'HTML', icon: '🌐' },
+                { name: 'CSS', icon: '🎨' },
+                { name: 'JavaScript', icon: '💻' },
+                { name: 'React', icon: '⚛️' },
+                { name: 'Node.js', icon: '🟢' },
+                { name: 'Git', icon: '🐙' },
+                { name: 'Python', icon: '🐍' },
+                { name: 'MySQL', icon: '🐬' },
+                { name: 'Java', icon: '☕' },
+            ];
+
+            const certificates = [
+                {
+                    id: 1,
+                    title: "Certified System Administrator",
+                    IssuedBy: "ServiceNow",
+                    issueDate: "June 2025",
+                    url: "images/CSA.jpg",
+                },
+                {
+                    id: 2,
+                    title: "Certified Application Developer",
+                    IssuedBy: "ServiceNow",
+                    issueDate: "July 2025",
+                    url: "images/CAD.jpg",
+                },
+                {
+                    id: 3,
+                    title: "Salesforce Developer with AzentBlazer Champion Program",
+                    IssuedBy: "SmartBridze, AICTE",
+                    issueDate: "August 2025",
+                    url: "images/salesforce.jpg",
+                },
+            ];
+
+            const handleScroll = () => {
+                if (window.scrollY > 50) {
+                    setScrolled(true);
+                } else {
+                    setScrolled(false);
+                }
+            };
+            
+            const toggleTheme = (newTheme) => {
+                setTheme(newTheme);
+                document.body.classList.remove('light', 'dark', 'aesthetic');
+                document.body.classList.add(newTheme);
+                localStorage.setItem('theme', newTheme);
+            };
+
+            const toggleMenu = () => {
+                setMenuOpen(!menuOpen);
+            };
+
+            const handleChange = (e) => {
+                const { name, value } = e.target;
+                setFormData(prev => ({
+                    ...prev,
+                    [name]: value
+                }));
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                alert('Message sent! (This is a demo - form submission is not functional)');
+                setFormData({
+                    name: '',
+                    email: '',
+                    subject: '',
+                    message: ''
+                });
+            };
+
+            useEffect(() => {
+                const savedTheme = localStorage.getItem('theme') || 'dark';
+                setTheme(savedTheme);
+                document.body.classList.add(savedTheme);
+                window.addEventListener('scroll', handleScroll);
+                return () => {
+                    window.removeEventListener('scroll', handleScroll);
+                };
+            }, []);
+
+            return (
+                <div className={`portfolio ${theme}`}>
+                    {/* Navbar */}
+                    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+                        <div className="logo">CS</div>
+                        <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
+                            <a href="#home" className="nav-link">Home</a>
+                            <a href="#about" className="nav-link">About</a>
+                            <a href="#skills" className="nav-link">Skills</a>
+                            <a href="#projects" className="nav-link">Projects</a>
+                            <a href="#certificates" className="nav-link">Certificates</a>
+                            <a href="#contact" className="nav-link">Contact</a>
+                            <div className="theme-switch">
+                                <label style={{ display: 'flex', alignItems: 'center' }}>
+                                    <input
+                                        type="radio"
+                                        name="theme-choice"
+                                        checked={theme === 'aesthetic'}
+                                        onChange={() => toggleTheme('aesthetic')}
+                                    />
+                                    <span style={{ marginLeft: '8px' }}>Aesthetic</span>
+                                </label>
+                                <label style={{ display: 'flex', alignItems: 'center' }}>
+                                    <input
+                                        type="radio"
+                                        name="theme-choice"
+                                        checked={theme === 'dark'}
+                                        onChange={() => toggleTheme('dark')}
+                                    />
+                                    <span style={{ marginLeft: '8px' }}>Dark</span>
+                                </label>
+                                <label style={{ display: 'flex', alignItems: 'center' }}>
+                                    <input
+                                        type="radio"
+                                        name="theme-choice"
+                                        checked={theme === 'light'}
+                                        onChange={() => toggleTheme('light')}
+                                    />
+                                    <span style={{ marginLeft: '8px' }}>Light</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button className="mobile-menu-btn" onClick={toggleMenu}>
+                            ☰
+                        </button>
+                    </nav>
+
+                    {/* Hero Section */}
+                    <section id="home" className="hero">
+                        <div className="hero-content animate-fade-in">
+                            <div className="hero-image">
+                                <img
+                                    src="images/photo.jpg.jpg" alt="My Photo"
+                                />
+                            </div>
+                            <h1 className="hero-title delay-100">
+                                Hi, I'm <span style={{ color: 'var(--primary)' }}>{name}</span>
+                            </h1>
+                            <p className="hero-subtitle delay-200">
+                                Aspiring web developer driven by a passion for creating responsive and efficient web applications.
+                            </p>
+                            <div className="hero-actions delay-300">
+                                <a href="#projects" className="btn btn-primary delay-300">
+                                    View Projects
+                                </a>
+                                <a href="#contact" className="btn btn-outline delay-400">
+                                    Get in Touch
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* About Section */}
+                    <section id="about" className="section">
+                        <h2 className="section-title">About Me</h2>
+                        <div className="about-content">
+                            <div className="about-text">
+                                <p>I'm a passionate and self-motivated web developer who found my calling in the dynamic world of the internet. It all started with a curiosity for how websites are built—that simple question led me down a path of discovery, from the fundamentals of HTML and CSS to the powerful logic of JavaScript. I thrive on turning complex challenges into clean, elegant solutions, and nothing is more rewarding than seeing a website I built come to life and provide real value to users.</p>
+                                <p>My expertise lies in building responsive, accessible, and high-performance websites. I have hands-on experience with modern technologies and frameworks, and I'm always eager to expand my knowledge. I focus on creating seamless experiences that are intuitive and enjoyable, knowing that a great website is about more than just its functionality—it's about the feeling it gives to the person using it.</p>
+                                <p>I am excited to bring my skills and passion to a team that values innovation and collaboration. I am constantly looking for opportunities to grow as a developer, tackle new projects, and contribute to impactful work.</p>
+                                <div style={{ marginTop: '2rem' }}>
+                                    <a href="Resume/Samreen-Resume (1).pdf" className="btn btn-primary" download>
+                                        Download Resume
+                                    </a>
+                                </div>
+                            </div>
+                            <div className="about-image">
+                                <img
+                                    src="images/sit.jpg"
+                                    alt="My Photo"
+                                />
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Skills Section */}
+                    <section id="skills" className="section">
+                        <h2 className="section-title">Skills & Technologies</h2>
+                        <div className="skills-grid">
+                            {skills.map((skill, index) => (
+                                <div key={index} className="skill-card">
+                                    <div className="skill-icon">{skill.icon}</div>
+                                    <h4>{skill.name}</h4>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Projects Section */}
+                    <section id="projects" className="section">
+                        <h2 className="section-title">Projects</h2>
+                        <div className="projects-grid">
+                            {projects.map((project) => (
+                                <a key={project.id} href={project.url} className="project-card" target="_blank" rel="noopener noreferrer">
+                                    <img
+                                        src={project.imageSrc}
+                                        alt={project.imageAlt}
+                                        className="project-image"
+                                    />
+                                    <div className="project-content">
+                                        <h3 className="project-title">{project.title}</h3>
+                                        <p className="project-description">{project.description}</p>
+                                        <div className="project-tags">
+                                            {project.tags.map((tag, index) => (
+                                                <span key={index} className="project-tag">{tag}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Certificates Section */}
+                    <section id="certificates" className="section">
+                        <h2 className="section-title">Certificates</h2>
+                        <div className="certificates-grid">
+                            {certificates.map((cert) => (
+                                <a key={cert.id} href={cert.url} target="_blank" rel="noopener noreferrer" className="certificate-card">
+                                    <h3 className="certificate-title">{cert.title}</h3>
+                                    <p className="certificate-issuer">Issued by: {cert.IssuedBy}</p>
+                                    <p className="certificate-date">Date: {cert.issueDate}</p>
+                                </a>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Contact Section */}
+                    <section id="contact" className="section">
+                        <h2 className="section-title">Get in Touch</h2>
+                        <div className="contact-container">
+                            <div className="contact-info">
+                                <p className="contact-text" style={{ marginBottom: '1.5rem', color: 'var(--light)' }}>
+                                    I am always open to discussing new projects, collaboration opportunities, and my love for coding. Feel free to reach out with any questions or just to say hello!
+                                </p>
+                                <div className="contact-method">
+                                    <div className="contact-icon">📍</div>
+                                    <div className="contact-text">
+                                        <h3>Location</h3>
+                                        <p>{location}</p>
+                                    </div>
+                                </div>
+                                <div className="contact-method">
+                                    <div className="contact-icon">📧</div>
+                                    <div className="contact-text">
+                                        <h3>Email</h3>
+                                        <p>{email}</p>
+                                    </div>
+                                </div>
+                                <div className="contact-method">
+                                    <div className="contact-icon">📞</div>
+                                    <div className="contact-text">
+                                        <h3>Phone</h3>
+                                        <p>{phone}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className="footer">
+                        <p>&copy; 2025 Chagal Samreen. All rights reserved.</p>
+                        <div className="social-links">
+                            <a href="https://github.com/chagalsamreen01" target="_blank" rel="noopener noreferrer" className="social-link">
+                                🐙
+                            </a>
+                            <a href="https://linkedin.com/in/chagal-samreen-54020a22a" target="_blank" rel="noopener noreferrer" className="social-link">
+                                💼
+                            </a>
+                            
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<Portfolio />, document.getElementById('root'));
+    </script>
+</body>
+</html>
